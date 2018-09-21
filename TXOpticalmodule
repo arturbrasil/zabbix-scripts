@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+u = 'idzie wąż wąską dróżką'
+uu = u.decode('utf8')
+s = uu.encode('cp1250')
+
+import sys
+import re
+import json
+import requests
+import urllib3
+from lxml import html
+from easysnmp import Session
+
+host = sys.argv[1]
+index_oid = sys.argv[2]
+offset = int(sys.argv[3])
+#print host
+#print index_oid
+#print offset
+oid = '1.3.6.1.4.1.2011.5.25.31.1.1.3.1.33' + index_oid
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+session = Session(hostname=host, community='Sumicitycgr', version=2)
+system_items_tx = session.get(oid)
+result =  system_items_tx.value.split(",")
+print result[offset]
+#for index, key in enumerate(result, start=0):  
+#	print key[offset]
+	
