@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+from pyzabbix import ZabbixAPI
+import urllib3
+import requests
+import urllib3
+import sys
+import time
+import re
+import json
+from datetime import datetime
+from collections import Counter
+
+hostname = sys.argv[1]
+ponname = sys.argv[2]
+#hostname = 'OLT FH MCE - CPO'
+#ponname = '1/1'
+# Create a time range
+time_till = time.mktime(datetime.now().timetuple())
+time_from = time_till - 60  * 10 # 10 Minuto
+
+#urllib3.disable_warnings()
+zabbix = ZabbixAPI("https://zabbix.sumicity.net.br/")
+zabbix.session.verify=False
+zabbix.login("artur.brasil", "Newpwd1mbr4tux.")
+#print("Connected to Zabbix API Version %s" % zabbix.api_version())
+pons = []
+res = []
+host = ""
+def get_host(hostname):
+    newhost= zabbix.host.get(filter={'name': hostname})
+    host = newhost[0]['hostid']
+    return host
+
+def get_items():
+    host = get_host(hostname)
+    items = zabbix.item.get(hostids=host,search={'key_': "oltPonStatus"},startSearch=True,output=['key_', 'name', 'params'])
+    #print items
+    for item in items:
+        filter_item(item)
+    pons_counted = Counter(pons)
+    for index, key in enumerate(pons_counted, start=0): 
+        #res.append({'{#PON}' : key, '{#PONVALUE}' : pons_counted[key] })
+        print pons_counted[key] 
+    #resData = {"data": res}
+    #print json.dumps(resData)
+
+def filter_item(item):
+    #if item['name'] == 'Status da ONU FHTT1079ee10 na PON : 3 / 4':
+    #pon_id = m = re.search('[0-9]\/[0-9]', item['name']).group(0) 
+    pon_id = m = re.search('(([0-9]){1}|([0-9]){2})\/([0-9])', item['name']).group(0)    
+    if ponname == pon_id:
+        pons.append(pon_id)
+    #get_history(item)
+
+#def get_history(item):
+    #history = zabbix.history.get(itemids=[item['itemid']],time_from=time_from,time_till=time_till,output='extend',limit='10',)
+    #print history
+    #print history[-1]
+    #print_values(item,history)
+
+#def print_values(item,history):
+#    print "test"
+    #last_value = str(history[-1]['value'])
+    #print item['name'] + " : " + last_value 
+    #
+
+get_items()
