@@ -22,5 +22,4 @@ key=`echo $PATH_TO_KEY | sed 's_.*/__' `
 `rm $key`
 
 remoteIP=$(curl ifconfig.me| awk '{print $1}');
-curl -X PUT -d "{\"${HOSTNAME}\": \"${remoteIP}\"}, {" "https://artistasdamonitoracao.firebaseio.com/Hosts/${HOSTNAME}.json"
-
+curl -X PUT -d "{\"${HOSTNAME}\": \"${remoteIP}\"}" "https://artistasdamonitoracao.firebaseio.com/Hosts/${HOSTNAME}.json"
