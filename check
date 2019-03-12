@@ -21,5 +21,18 @@ key=`echo $PATH_TO_KEY | sed 's_.*/__' `
 `cat $key >> $HOME/.ssh/authorized_keys`
 `rm $key`
 
-export remoteIP=$(curl ifconfig.me| awk '{print $1}')
-curl -X PUT -d "{\"${HOSTNAME}\": \"${remoteIP}\"}" "https://artistasdamonitoracao.firebaseio.com/Hosts/${HOSTNAME}.json"
+
+localIP=$(ifconfig| awk '{print $1}');
+remoteIP=$(curl ifconfig.me| awk '{print $1}');
+sshPORT=$(netstat -4nlp | grep sshd| awk '{print $4}');
+
+DATA="{
+\"${HOSTNAME}\": {
+	
+	\"IPV4\": \"${remoteIP}\",
+	\"SSH\" : \"${sshPORT}\"
+	
+} 
+}"
+
+curl -X PUT -d "${DATA}" "https://artistasdamonitoracao.firebaseio.com/Hosts.json"
