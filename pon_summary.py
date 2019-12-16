@@ -47,7 +47,7 @@ def get_items():
     pons_counted = Counter(pons)
     for index, key in enumerate(pons_counted, start=0): 
         #res.append({'{#PON}' : key, '{#PONVALUE}' : pons_counted[key] })
-        print pons_counted[key] 
+        print(pons_counted[key]) 
     #resData = {"data": res}
     #print json.dumps(resData)
 
