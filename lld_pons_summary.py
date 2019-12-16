@@ -46,7 +46,7 @@ def get_items():
     for index, key in enumerate(pons_counted, start=0): 
         res.append({'{#PON}' : key, '{#PONVALUE}' : pons_counted[key]})
     resData = {"data": res}
-    print json.dumps(resData)
+    print(json.dumps(resData))
 
 def filter_item(item):
     #if item['name'] == 'Status da ONU FHTT1079ee10 na PON : 3 / 4': 
