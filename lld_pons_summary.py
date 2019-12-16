@@ -19,7 +19,7 @@ time_till = time.mktime(datetime.now().timetuple())
 time_from = time_till - 60  * 10 # 10 Minuto
 
 with open(r'credentials.yml') as file:
-    credentials = yaml.load(file, Loader=yaml.FullLoader)
+    credentials = yaml.load(file)
 
 
 #urllib3.disable_warnings()
