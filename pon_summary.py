@@ -7,6 +7,7 @@ import sys
 import time
 import re
 import json
+import yaml
 from datetime import datetime
 from collections import Counter
 
@@ -18,10 +19,16 @@ ponname = sys.argv[2]
 time_till = time.mktime(datetime.now().timetuple())
 time_from = time_till - 60  * 10 # 10 Minuto
 
+with open(r'credentials.yml') as file:
+    credentials = yaml.load(file, Loader=yaml.FullLoader)
+    #print(credentials['login'])
+
+
 #urllib3.disable_warnings()
 zabbix = ZabbixAPI("http://localhost/zabbix/")
 zabbix.session.verify=False
-zabbix.login("artistasdamonitoracao", "Newpwd1mbr4tux.")
+zabbix.login(credentials['login'], credentials['password'])
+
 #print("Connected to Zabbix API Version %s" % zabbix.api_version())
 pons = []
 res = []
