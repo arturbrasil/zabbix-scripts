@@ -17,9 +17,9 @@ time_till = time.mktime(datetime.now().timetuple())
 time_from = time_till - 60  * 10 # 10 Minuto
 
 #urllib3.disable_warnings()
-zabbix = ZabbixAPI("https://zabbix.sumicity.net.br/")
+zabbix = ZabbixAPI("http://localhost/zabbix/")
 zabbix.session.verify=False
-zabbix.login("artur.brasil", "Newpwd1mbr4tux.")
+zabbix.login("artistasdamonitoracao", "Newpwd1mbr4tux.")
 #print("Connected to Zabbix API Version %s" % zabbix.api_version())
 pons = []
 res = []
