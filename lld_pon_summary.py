@@ -68,6 +68,5 @@ def filter_item(item):
     #last_value = str(history[-1]['value'])
     #print item['name'] + " : " + last_value 
     #
-
 get_items()
 
