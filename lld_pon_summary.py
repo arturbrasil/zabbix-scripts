@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from pyzabbix import ZabbixAPI
 import urllib3
 import requests
